@@ -43,5 +43,5 @@ def retrieve_data():
 
 @app.post("/prestamos/")
 async def create_loan(libro_id: int):
-    # Mock de un préstamo real
+    # Mock de un préstamo reall
     return {"message": "Préstamo creado (no realmente)", "libro_id": libro_id}

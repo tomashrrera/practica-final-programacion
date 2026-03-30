@@ -1,6 +1,6 @@
 pydantic==1.10.4
 fastapi
 pandas
-SQLAlchemy==2.0.25
+SQLAlchemy==2.0.25   #definimos sqlalchemy
 psycopg2-binary
 uvicorn[standard]

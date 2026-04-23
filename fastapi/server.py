@@ -64,3 +64,11 @@ def update_book(book_id: int, updated: schemas.BookCreate, db: Session = Depends
     book = db.query(models.Book).filter(models.Book.id == book_id).first()
 
     if not book:
+        raise HTTPException(status_code=404, detail="Libro no encontrado")
+
+    for key, value in updated.dict().items():
+        setattr(book, key, value)
+
+    db.commit()
+    db.refresh(book)
+    return book

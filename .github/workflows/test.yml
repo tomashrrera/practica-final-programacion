@@ -23,16 +23,17 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        # Install/Upgrade typing-extensions first to avoid Pydantic version conflicts
-        pip install --upgrade typing-extensions
         # Install from requirements files
         if [ -f api/requirements.txt ]; then pip install -r api/requirements.txt; fi
         if [ -f streamlit/requirements.txt ]; then pip install -r streamlit/requirements.txt; fi
         # Ensure test dependencies are present
         pip install pytest httpx email-validator
+        # Upgrade typing-extensions at the end to ensure it's not downgraded by any conflicting constraints
+        pip install --upgrade typing-extensions pydantic pydantic-core
 
     - name: Run tests with pytest
       run: |
+        pip show typing-extensions pydantic pydantic-core || true
         # Ensure root is in PYTHONPATH so 'import api' works
         export PYTHONPATH=$PYTHONPATH:$(pwd)
         # Run only the relevant tests to avoid collection issues in other folders

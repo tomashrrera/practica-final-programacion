@@ -61,7 +61,7 @@ streamlit-calendar==1.2.0
 tenacity==8.5.0
 toml==0.10.2
 tornado==6.4.1
-typing_extensions>=4.12.2
+typing_extensions>=4.15.0
 tzdata==2024.1
 urllib3==2.2.2
 watchdog==4.0.2

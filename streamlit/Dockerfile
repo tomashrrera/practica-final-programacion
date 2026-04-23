@@ -1,15 +1,15 @@
 FROM python:3.11-slim
 
-RUN mkdir /streamlit
+WORKDIR /app
 
-COPY requirements.txt /streamlit
+# Copy requirements and install
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-WORKDIR /streamlit
-
-RUN pip install -r requirements.txt
-
-COPY . /streamlit
+# Copy all streamlit files
+COPY . .
 
 EXPOSE 8501
 
-CMD ["streamlit", "run", "Library_App.py"]
+# Streamlit run needs the main file
+CMD ["streamlit", "run", "Library_App.py", "--server.address=0.0.0.0"]

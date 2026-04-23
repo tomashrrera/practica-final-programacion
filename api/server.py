@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 from typing import List
 
 # Importaciones internas del proyecto
-from data.database import SessionLocal, engine
-from data import models, schemas
+from .data.database import SessionLocal, engine
+from .data import models, schemas
 
 # Crear tablas si no existen
 models.Base.metadata.create_all(bind=engine)

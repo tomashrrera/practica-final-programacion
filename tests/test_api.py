@@ -2,26 +2,20 @@ import pytest
 import sys
 import os
 
-# To avoid shadowing the 'fastapi' library with our local 'fastapi' directory,
-# we ensure the library path takes precedence by moving the root to the end of sys.path
+# Now that the folder is renamed to 'api', we can simply add the project root
+# and import things normally without shadowing conflicts.
 root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-if root in sys.path:
-    sys.path.remove(root)
-# Add backend code to path but NOT at the beginning
-backend_path = os.path.join(root, "fastapi")
-if backend_path not in sys.path:
-    sys.path.append(backend_path)
-# Add root at the end just in case
-sys.path.append(root)
+if root not in sys.path:
+    sys.path.append(root)
 
 from fastapi.testclient import TestClient
-import server
-from data import models, database, schemas
+from api import server
+from api.data import models, database, schemas
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
-# Test Database setup - Using StaticPool for in-memory SQLite to persist data across connections
+# Test Database setup
 SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
 test_engine = create_engine(
     SQLALCHEMY_DATABASE_URL, 
@@ -50,16 +44,13 @@ def setup_db():
 # --- Book Tests ---
 
 def test_delete_book():
-    # Create a book first
     response = client.post("/books", json={"title": "Delete Me", "author": "Unknown"})
     assert response.status_code == 200
     book_id = response.json()["id"]
     
-    # Delete it
     response = client.delete(f"/books/{book_id}")
     assert response.status_code == 200
     
-    # Verify it's gone
     response = client.get(f"/books/{book_id}")
     assert response.status_code == 404
 
@@ -82,7 +73,6 @@ def test_get_users():
 # --- Loan Tests ---
 
 def test_register_loan():
-    # Setup: Create book and user
     res_book = client.post("/books", json={"title": "1984", "author": "George Orwell"})
     res_user = client.post("/users", json={"name": "Bob", "email": "bob@example.com"})
     
@@ -92,7 +82,6 @@ def test_register_loan():
     book_id = res_book.json()["id"]
     user_id = res_user.json()["id"]
     
-    # Action: Register loan
     response = client.post("/loans", json={"book_id": book_id, "user_id": user_id})
     assert response.status_code == 200
     data = response.json()

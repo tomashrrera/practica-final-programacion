@@ -1,5 +1,6 @@
-from pydantic import BaseModel, EmailStr
-from typing import Optional
+from pydantic import BaseModel, EmailStr, ConfigDict
+from typing import Optional, List
+from datetime import datetime
 
 class BookBase(BaseModel):
     title: str
@@ -11,19 +12,28 @@ class BookCreate(BookBase):
 
 class Book(BookBase):
     id: int
-
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 class UserBase(BaseModel):
     name: str
-    email: str
+    email: EmailStr
 
 class UserCreate(UserBase):
     pass
 
 class User(UserBase):
     id: int
+    model_config = ConfigDict(from_attributes=True)
 
-    class Config:
-        orm_mode = True
+class LoanBase(BaseModel):
+    book_id: int
+    user_id: int
+    loan_date: datetime = datetime.utcnow()
+    return_date: Optional[datetime] = None
+
+class LoanCreate(LoanBase):
+    pass
+
+class Loan(LoanBase):
+    id: int
+    model_config = ConfigDict(from_attributes=True)

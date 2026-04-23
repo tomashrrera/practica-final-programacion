@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -20,11 +20,14 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        # Añadimos todas las librerías necesarias para que no falle por falta de paquetes
-        pip install fastapi sqlalchemy pytest httpx requests pydantic
+        # Install from requirements files
+        if [ -f api/requirements.txt ]; then pip install -r api/requirements.txt; fi
+        if [ -f streamlit/requirements.txt ]; then pip install -r streamlit/requirements.txt; fi
+        # Ensure test dependencies are present
+        pip install pytest httpx email-validator
 
     - name: Run tests with pytest
       run: |
-        # Añadimos el directorio actual al path para que encuentre la carpeta 'api'
+        # Ensure root is in PYTHONPATH so 'import api' works
         export PYTHONPATH=$PYTHONPATH:$(pwd)
         pytest

@@ -25,3 +25,9 @@ Registros Diarios - Práctica Final Programación II
 
 **Bloqueos:**
 - Ninguno. El entorno de desarrollo es estable y todos los tests pasan (7/7).
+
+### Fecha: 23-04-2026 (Actualización CI/CD)
+**¿Qué hemos hecho ahora?**
+- Depuración y corrección del pipeline de GitHub Actions para asegurar que los tests se ejecutan correctamente.
+- Resolución de conflictos de importación ("shadowing") renombrando el directorio `fastapi/` a `api/`.
+- Ajuste de versiones de `typing_extensions` para garantizar la compatibilidad de Pydantic V2 en el servidor de integración.

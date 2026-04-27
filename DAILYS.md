@@ -38,7 +38,7 @@ Registros Diarios - Práctica Final Programación II
 **¿Qué hemos hecho hoy?**
 - Inicio formal del Sprint 2 enfocado en la modularización.
 - Se ha descompuesto el servidor monolítico en routers especializados (`api/routers/`) siguiendo SRP.
-- Centralización de dependencias en `api/dependencies.py` para limpiar las firmas de los endpoints.
+- Centralización de dependencias in `api/dependencies.py` para limpiar las firmas de los endpoints.
 - Resolución del conflicto crítico de nombres: se renombró definitivamente `fastapi/` a `api/` para evitar que Python sombreara la librería oficial, lo que impedía el arranque de Uvicorn.
 
 **Bloqueos:**
@@ -56,3 +56,14 @@ Registros Diarios - Práctica Final Programación II
 
 **Bloqueos:**
 - Ajustes en la configuración de Docker para que los nuevos paths y el sistema de caching funcionen coordinados entre contenedores.
+
+### Fecha: 27-04-2026 (Propiedades y Limpieza)
+**Asistentes:** Tomas Herrera
+
+**¿Qué hemos hecho ahora?**
+- Ya nos hemos puesto con el Sprint 3 para dejar el proyecto niquelado.
+- He añadido métodos `@property` en los modelos de la base de datos. Ahora es mucho más fácil ver el estado de los libros o cuántos préstamos tiene cada usuario porque se calcula sobre la marcha.
+- He retocado los esquemas de Pydantic para que esta información nueva se envíe automáticamente por la API. Así el frontend lo tiene todo mascado.
+
+**Bloqueos:**
+- Ninguno, todo ha ido rodado y el código queda mucho más limpio así.

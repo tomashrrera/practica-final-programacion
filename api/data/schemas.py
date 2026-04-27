@@ -12,6 +12,7 @@ class BookCreate(BookBase):
 
 class Book(BookBase):
     id: int
+    status: str
     model_config = ConfigDict(from_attributes=True)
 
 class UserBase(BaseModel):
@@ -37,3 +38,5 @@ class LoanCreate(LoanBase):
 class Loan(LoanBase):
     id: int
     model_config = ConfigDict(from_attributes=True)
+ue)
+ig = ConfigDict(from_attributes=True)

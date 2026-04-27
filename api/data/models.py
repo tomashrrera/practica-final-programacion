@@ -48,3 +48,14 @@ class Loan(Base):
     # Relationships
     book = relationship("Book", back_populates="loans")
     user = relationship("User", back_populates="loans")
+
+    @property
+    def is_active(self) -> bool:
+        """Check if the loan is currently active."""
+        return self.return_date is None
+"User", back_populates="loans")
+return_date = Column(DateTime, nullable=True)
+
+    # Relationships
+    book = relationship("Book", back_populates="loans")
+    user = relationship("User", back_populates="loans")

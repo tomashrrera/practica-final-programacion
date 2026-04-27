@@ -31,3 +31,28 @@ Registros Diarios - Práctica Final Programación II
 - Depuración y corrección del pipeline de GitHub Actions para asegurar que los tests se ejecutan correctamente.
 - Resolución de conflictos de importación ("shadowing") renombrando el directorio `fastapi/` a `api/`.
 - Ajuste de versiones de `typing_extensions` para garantizar la compatibilidad de Pydantic V2 en el servidor de integración.
+
+### Fecha: 26-04-2026 (Sesión de Refactorización)
+**Asistentes:** Tomas Herrera
+
+**¿Qué hemos hecho hoy?**
+- Inicio formal del Sprint 2 enfocado en la modularización.
+- Se ha descompuesto el servidor monolítico en routers especializados (`api/routers/`) siguiendo SRP.
+- Centralización de dependencias en `api/dependencies.py` para limpiar las firmas de los endpoints.
+- Resolución del conflicto crítico de nombres: se renombró definitivamente `fastapi/` a `api/` para evitar que Python sombreara la librería oficial, lo que impedía el arranque de Uvicorn.
+
+**Bloqueos:**
+- El sombreado (shadowing) de la carpeta `fastapi/` nos dio problemas de importación circulares y de ejecución, resuelto con el cambio de estructura.
+
+### Fecha: 27-04-2026 (Sesión de Robustez y UX)
+**Asistentes:** Tomas Herrera
+
+**¿Qué hemos hecho hoy?**
+- Finalización de Sprint 2.
+- Implementación de un sistema de excepciones personalizadas en `api/exceptions.py` para capturar errores de negocio (libros no encontrados, ya prestados, etc.).
+- Registro de manejadores globales en FastAPI para devolver respuestas JSON estandarizadas.
+- Optimización de rendimiento en el frontend: creación de un cliente API centralizado con `@st.cache_data` para reducir la latitud y carga del servidor.
+- Mejora de la UX en Streamlit: implementación de selectores dinámicos vinculados a la base de datos para facilitar la gestión de préstamos.
+
+**Bloqueos:**
+- Ajustes en la configuración de Docker para que los nuevos paths y el sistema de caching funcionen coordinados entre contenedores.

@@ -77,3 +77,14 @@ Registros Diarios - Práctica Final Programación II
 
 **Bloqueos:**
 - Ninguno, los decoradores de Python son una maravilla para no repetir código de logging.
+
+### Fecha: 27-04-2026 (Generadores y Sembrado)
+**Asistentes:** Tomas Herrera
+
+**¿Qué hemos hecho ahora?**
+- He implementado un sistema de "seeding" (sembrado de datos) para no tener la base de datos vacía al empezar.
+- Lo más chulo es que he usado un **generador (`yield`)**. En lugar de cargar toda la lista de datos de golpe, el sistema va "soltando" cada libro o usuario uno a uno, lo que ahorra un montón de memoria si algún día tenemos miles de datos.
+- He dejado el script listo en `api/utils/seeder.py`.
+
+**Bloqueos:**
+- Ninguno, los generadores hacen que el proceso sea super eficiente.

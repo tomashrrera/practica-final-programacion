@@ -67,3 +67,13 @@ Registros Diarios - Práctica Final Programación II
 
 **Bloqueos:**
 - Ninguno, todo ha ido rodado y el código queda mucho más limpio así.
+
+### Fecha: 27-04-2026 (Decoradores y Performance)
+**Asistentes:** Tomas Herrera
+
+**¿Qué hemos hecho ahora?**
+- He seguido con la ingeniería avanzada y he creado un decorador propio (`@log_execution_time`) para medir cuánto tardan los endpoints en responder.
+- Lo he aplicado en las rutas de libros y préstamos. Así, si alguna consulta a la base de datos se vuelve lenta en el futuro, lo veremos enseguida en los logs de performance.
+
+**Bloqueos:**
+- Ninguno, los decoradores de Python son una maravilla para no repetir código de logging.

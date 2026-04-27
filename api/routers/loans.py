@@ -18,6 +18,7 @@ def get_loans(db: Session = Depends(get_db)):
     return db.query(models.Loan).all()
 
 @router.post("/", response_model=schemas.Loan)
+@log_execution_time
 def create_loan(loan: schemas.LoanCreate, db: Session = Depends(get_db)):
     # Basic validation
     book = db.query(models.Book).filter(models.Book.id == loan.book_id).first()

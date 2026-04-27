@@ -4,6 +4,7 @@ from typing import List
 from ..data import models, schemas
 from ..dependencies import get_db
 from ..exceptions import BookNotFoundError
+from ..logger import log_execution_time
 
 router = APIRouter(
     prefix="/books",
@@ -11,6 +12,7 @@ router = APIRouter(
 )
 
 @router.get("/", response_model=List[schemas.Book])
+@log_execution_time
 def get_books(db: Session = Depends(get_db)):
     return db.query(models.Book).all()
 

@@ -1,40 +1,48 @@
 import streamlit as st
-import requests
-import os
-from datetime import datetime
+from utils.api_client import fetch_books, fetch_users, create_loan
 
 st.set_page_config(page_title="Préstamo de Libros", page_icon="✍️")
 
 st.markdown("# Gestionar Préstamo")
-st.write("Formulario para realizar un préstamo.")
+st.write("Selecciona un libro y un usuario para registrar un préstamo.")
 
-API_URL = os.getenv("API_URL", "http://fastapi:8000")
+# Fetch data for selectboxes (cached)
+available_books = [b for b in fetch_books() if b['is_available']]
+users = fetch_users()
+
+if not available_books:
+    st.warning("⚠️ No hay libros disponibles para préstamo.")
+if not users:
+    st.info("💡 No hay usuarios registrados en el sistema.")
 
 with st.form("loan_form"):
-    libro_id = st.number_input("ID del Libro", min_value=1, step=1)
-    usuario_id = st.number_input("ID de Usuario", min_value=1, step=1)
+    # Format options for the selectbox
+    book_options = {f"{b['title']} (ID: {b['id']})": b['id'] for b in available_books}
+    user_options = {f"{u['name']} (ID: {u['id']})": u['id'] for u in users}
+
+    selected_book_label = st.selectbox("Seleccionar Libro", options=list(book_options.keys()))
+    selected_user_label = st.selectbox("Seleccionar Usuario", options=list(user_options.keys()))
+    
     submitted = st.form_submit_button("Realizar Préstamo")
 
     if submitted:
-        payload = {
-            "book_id": int(libro_id),
-            "user_id": int(usuario_id),
-            "loan_date": datetime.utcnow().isoformat()
-        }
-        
-        try:
-            response = requests.post(f"{API_URL}/loans", json=payload)
+        if not selected_book_label or not selected_user_label:
+            st.error("Por favor, selecciona un libro y un usuario.")
+        else:
+            book_id = book_options[selected_book_label]
+            user_id = user_options[selected_user_label]
+            
+            response = create_loan(book_id, user_id)
             
             if response.status_code == 200:
                 st.success("✅ Préstamo registrado correctamente.")
-                st.json(response.json())
-            elif response.status_code == 404:
-                st.error(f"❌ Error: {response.json().get('detail')}")
+                # Clear cache so the book list updates its availability status
+                st.cache_data.clear()
             else:
-                st.error(f"❌ Error al registrar préstamo: {response.status_code}")
-                st.write(response.text)
-        except Exception as e:
-            st.error(f"Error de conexión: {e}")
+                error_detail = response.json().get('detail', 'Error desconocido')
+                st.error(f"❌ Error: {error_detail}")
 
 st.markdown("---")
-st.info("💡 Asegúrate de que tanto el Libro como el Usuario existan en el sistema antes de registrar el préstamo.")
+if st.button("🔄 Refrescar datos"):
+    st.cache_data.clear()
+    st.rerun()

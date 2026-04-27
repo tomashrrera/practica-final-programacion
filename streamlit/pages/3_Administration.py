@@ -1,11 +1,9 @@
 import streamlit as st
-import requests
-import os
+from utils.api_client import create_book, create_user
 
 st.set_page_config(page_title="Administración", page_icon="⚙️")
 
 st.markdown("# Administración del Sistema")
-API_URL = os.getenv("API_URL", "http://fastapi:8000")
 
 tab1, tab2 = st.tabs(["🆕 Registrar Libro", "👥 Registrar Usuario"])
 
@@ -18,14 +16,12 @@ with tab1:
         
         if submit_book:
             if title and author:
-                try:
-                    res = requests.post(f"{API_URL}/books", json={"title": title, "author": author})
-                    if res.status_code == 200:
-                        st.success(f"Libro '{title}' añadido con éxito.")
-                    else:
-                        st.error(f"Error: {res.status_code}")
-                except Exception as e:
-                    st.error(f"Error de conexión: {e}")
+                res = create_book(title, author)
+                if res.status_code == 200:
+                    st.success(f"Libro '{title}' añadido con éxito.")
+                    st.cache_data.clear() # Clear cache to show the new book in lists
+                else:
+                    st.error(f"Error: {res.status_code}")
             else:
                 st.warning("Por favor, rellena todos los campos.")
 
@@ -38,14 +34,12 @@ with tab2:
         
         if submit_user:
             if name and email:
-                try:
-                    res = requests.post(f"{API_URL}/users", json={"name": name, "email": email})
-                    if res.status_code == 200:
-                        st.success(f"Usuario '{name}' registrado con éxito.")
-                    else:
-                        st.error(f"Error: {res.status_code}")
-                        st.write(res.text)
-                except Exception as e:
-                    st.error(f"Error de conexión: {e}")
+                res = create_user(name, email)
+                if res.status_code == 200:
+                    st.success(f"Usuario '{name}' registrado con éxito.")
+                    st.cache_data.clear() # Clear cache to show the new user in lists
+                else:
+                    error_detail = res.json().get('detail', 'Error desconocido')
+                    st.error(f"❌ Error: {error_detail}")
             else:
                 st.warning("Por favor, rellena todos los campos.")

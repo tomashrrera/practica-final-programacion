@@ -88,3 +88,14 @@ Registros Diarios - Práctica Final Programación II
 
 **Bloqueos:**
 - Ninguno, los generadores hacen que el proceso sea super eficiente.
+
+### Fecha: 27-04-2026 (Documentación SOLID)
+**Asistentes:** Tomas Herrera
+
+**¿Qué hemos hecho ahora?**
+- He completado una de las partes más importantes del Sprint 3: la documentación técnica del proyecto.
+- He reescrito el `README.md` de arriba a abajo. Ahora explica detalladamente cómo hemos aplicado cada uno de los principios **SOLID** (SRP, OCP, LSP, ISP, DIP) en nuestra arquitectura.
+- También he dejado claro cómo usar Docker y cómo ejecutar los tests. Con esto, el proyecto ya tiene un nivel profesional de cara a la entrega.
+
+**Bloqueos:**
+- Ninguno, poner por escrito todo el trabajo realizado ayuda a ver lo robusto que ha quedado el sistema.

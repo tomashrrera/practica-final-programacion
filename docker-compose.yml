@@ -1,19 +1,38 @@
 services:
 
+  db:
+    image: postgres:15-alpine
+    container_name: library_db
+    restart: always
+    environment:
+      - POSTGRES_USER=lib_user
+      - POSTGRES_PASSWORD=lib_pass
+      - POSTGRES_DB=library_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - deploy_network
+
   fastapi:
     build: api/
     ports:
-      - 8000:8000
+      - "8000:8000"
     networks:
       - deploy_network
     container_name: fastapi
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://lib_user:lib_pass@db:5432/library_db
 
   streamlit:
     build: streamlit/
     depends_on:
       - fastapi
     ports:
-      - 8501:8501
+      - "8501:8501"
     networks:
       - deploy_network
     container_name: streamlit
@@ -23,3 +42,6 @@ services:
 networks:
   deploy_network:
     driver: bridge
+
+volumes:
+  postgres_data:

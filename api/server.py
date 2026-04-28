@@ -1,12 +1,25 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
+import time
+from sqlalchemy.exc import OperationalError
 from .data.database import engine
 from .data import models
 from .routers import books, users, loans
 from .exceptions import LibraryException, BookNotFoundError, UserNotFoundError
 
-# Crear tablas si no existen
-models.Base.metadata.create_all(bind=engine)
+# Crear tablas si no existen (con resiliencia al inicio)
+max_retries = 5
+for i in range(max_retries):
+    try:
+        models.Base.metadata.create_all(bind=engine)
+        print("Tablas verificadas/creadas con éxito en la base de datos.")
+        break
+    except OperationalError as e:
+        if i == max_retries - 1:
+            print("No se pudo conectar a la base de datos tras múltiples intentos.")
+            raise e
+        print(f"Base de datos no lista, reintentando en 5 segundos... ({i+1}/{max_retries})")
+        time.sleep(5)
 
 app = FastAPI(
     title="Library API",

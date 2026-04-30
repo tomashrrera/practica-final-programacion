@@ -1,10 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from typing import List
 from ..data import models, schemas
 from ..dependencies import get_db
 from ..exceptions import BookNotFoundError, UserNotFoundError, BookAlreadyBorrowedError
-from ..logger import get_logger
+from ..logger import get_logger, log_execution_time
 
 logger = get_logger(__name__)
 

@@ -8,7 +8,7 @@ El sistema utiliza una arquitectura desacoplada basada en microservicios, asegur
 
 *   **Backend**: Desarrollado con **FastAPI**, utilizando un sistema de rutas modular y persistencia de datos mediante **SQLAlchemy 2.x**.
 *   **Frontend**: Interfaz de usuario interactiva construida con **Streamlit**, que se comunica exclusivamente a través de la API REST para evitar acoplamiento con la base de datos.
-*   **Infraestructura**: Orquestación completa mediante **Docker** y **Docker Compose**.
+*   **Infraestructura**: Orquyestación completa mediante **Docker** y **Docker Compose**.
 *   **CI/CD**: Integración continua configurada con **GitHub Actions** para garantizar que cada cambio pase una suite de pruebas automatizadas.
 
 ---

@@ -4,10 +4,9 @@ from datetime import datetime
 from .database import Base
 
 class Book(Base):
-    """
-    Book model representing a library resource.
-    Adheres to SRP by only handling book-related data.
-    """
+    @property
+    def status(self) -> str:
+        return "available" if self.is_available else "borrowed"
     __tablename__ = "books"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -19,10 +18,9 @@ class Book(Base):
     loans = relationship("Loan", back_populates="book")
 
 class User(Base):
-    """
-    User model representing a library member.
-    Adheres to SRP by only handling user-related data.
-    """
+    @property
+    def active_loans_count(self) -> int:
+        return sum(1 for loan in self.loans if loan.return_date is None)
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)

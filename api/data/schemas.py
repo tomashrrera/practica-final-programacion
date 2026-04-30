@@ -38,5 +38,3 @@ class LoanCreate(LoanBase):
 class Loan(LoanBase):
     id: int
     model_config = ConfigDict(from_attributes=True)
-ue)
-ig = ConfigDict(from_attributes=True)

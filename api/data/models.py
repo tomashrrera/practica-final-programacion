@@ -33,10 +33,7 @@ class User(Base):
     loans = relationship("Loan", back_populates="user")
 
 class Loan(Base):
-    """
-    Loan model representing a book borrowed by a user.
-    Adheres to SRP by only handling loan-related data.
-    """
+
     __tablename__ = "loans"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -53,9 +50,3 @@ class Loan(Base):
     def is_active(self) -> bool:
         """Check if the loan is currently active."""
         return self.return_date is None
-"User", back_populates="loans")
-return_date = Column(DateTime, nullable=True)
-
-    # Relationships
-    book = relationship("Book", back_populates="loans")
-    user = relationship("User", back_populates="loans")
